@@ -43,14 +43,18 @@ def main():
             pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
 
     while running:
+            pygame.display.flip()
+
+            if(selected):
+                pygame.draw.rect(screen, (100, 100, 100), (savedX * cellAmount - 1, savedY * cellAmount - 1, 40, 40))
+            else:
+                pygame.draw.rect(screen, (0, 0, 0), (savedX * cellAmount - 1, savedY * cellAmount - 1, 40, 40))
+
             for y in range (cellAmount):
                 for x in range(cellAmount):
                   pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
-
-
-
             pygame.draw.rect(screen, (255, 255, 255), (xIdx * cellAmount - 1, yIdx * cellAmount - 1, 40, 40), 1, border_radius = 1)
-            pygame.display.flip()
+            
             for events in pygame.event.get():
                 if events.type == pygame.QUIT:
                     running = False
