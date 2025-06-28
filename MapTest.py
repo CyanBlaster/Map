@@ -54,7 +54,7 @@ def main():
                 for x in range(cellAmount):
                   pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
             pygame.draw.rect(screen, (255, 255, 255), (xIdx * cellAmount - 1, yIdx * cellAmount - 1, 40, 40), 1, border_radius = 1)
-            
+
             for events in pygame.event.get():
                 if events.type == pygame.QUIT:
                     running = False
@@ -82,5 +82,8 @@ def main():
                                 a = map[savedX][savedY]
                                 map[savedX][savedY] = map[xIdx][yIdx]
                                 map[xIdx][yIdx] = a
-                        
+                                for y in range (cellAmount - 5):
+                                    for x in range(cellAmount - 5):
+                                      if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] != 5):
+                                          print("x")
 main()
