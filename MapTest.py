@@ -90,6 +90,13 @@ def main():
                                             map[x + 2][y] = 0
                                             map[x + 3][y] = 0
                                             map[x + 4][y] = 0
+                                            for i in range (y):
+                                                for j in range(x, x + 5):
+                                                    map[j][y - i] = map[j][y - i - 1]
+                                            for a in range(x, x + 5):
+                                                map[a][0] = 0
+
+
                                         elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] != 5):
                                           map[x][y] = 0
                                           map[x][y + 1] = 0
