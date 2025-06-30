@@ -84,6 +84,16 @@ def main():
                                 map[xIdx][yIdx] = a
                                 for y in range (cellAmount - 5):
                                     for x in range(cellAmount - 5):
-                                      if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] != 5):
-                                          print("x")
+                                        if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] != 5):
+                                            map[x][y] = 0
+                                            map[x + 1][y] = 0
+                                            map[x + 2][y] = 0
+                                            map[x + 3][y] = 0
+                                            map[x + 4][y] = 0
+                                        elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] != 5):
+                                          map[x][y] = 0
+                                          map[x][y + 1] = 0
+                                          map[x][y + 2] = 0
+                                          map[x][y + 3] = 0
+                                          map[x][y + 4] = 0
 main()
