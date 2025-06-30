@@ -37,8 +37,23 @@ def check5inACol(map, cellAmount):
         for x in range(cellAmount - 5):
             if(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                 print(x, y)
-                return True
-    print(1)      
+                return True     
+    return False
+
+def check5inADia1(map, cellAmount):
+    for y in range (cellAmount - 5):
+        for x in range(cellAmount - 5):
+            if(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
+                print(x, y)
+                return True     
+    return False
+
+def check5inADia2(map, cellAmount):
+    for y in range (cellAmount - 5):
+        for x in range(cellAmount - 5):
+            if(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4] and map[x][y] >= 1 and map[x][y] <= 4):
+                print(x, y)
+                return True     
     return False
 
 
@@ -104,7 +119,7 @@ def main():
                                 map[savedX][savedY] = map[xIdx][yIdx]
                                 map[xIdx][yIdx] = a
 
-                                if(check5inARow(map, cellAmount) == False and check5inACol(map, cellAmount) == False):
+                                if(check5inARow(map, cellAmount) == False and check5inACol(map, cellAmount) == False and check5inADia1(map, cellAmount) == False and check5inADia2(map, cellAmount) == False):
                                     a = map[savedX][savedY]
                                     map[savedX][savedY] = map[xIdx][yIdx]
                                     map[xIdx][yIdx] = a
@@ -124,6 +139,25 @@ def main():
                                                 map[a][0] = 0
                                             selected = False
 
+                                        elif(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] != 5):
+                                            print(1)
+                                            map[x][y] = 0
+                                            map[x + 1][y + 1] = 0
+                                            map[x + 2][y + 2] = 0
+                                            map[x + 3][y + 3] = 0
+                                            map[x + 4][y + 4] = 0
+                                            selected = False
+
+
+                                        elif(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] != 5):
+                                            print(2)
+                                            map[x][y + 4] = 0
+                                            map[x + 1][y + 3] = 0
+                                            map[x + 2][y + 2] = 0
+                                            map[x + 3][y + 1] = 0
+                                            map[x + 4][y] = 0
+                                            selected = False
+
 
                                         elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] != 5):
                                             map[x][y] = 0
@@ -135,4 +169,5 @@ def main():
                                                 map[x][y + 4 - i] = map[x][y - i - 1]
                                             for a in range(0, 5):
                                                 map[x][a] = 0
+                                            selected = False
 main()
