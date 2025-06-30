@@ -29,10 +29,16 @@ def check5inARow(map, cellAmount):
     for y in range (cellAmount - 5):
         for x in range(cellAmount - 5):
             if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
+                return True
+    return False
+
+def check5inACol(map, cellAmount):
+    for y in range (cellAmount - 5):
+        for x in range(cellAmount - 5):
+            if(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                 print(x, y)
                 return True
-                
-    print(1)
+    print(1)      
     return False
 
 
@@ -98,7 +104,7 @@ def main():
                                 map[savedX][savedY] = map[xIdx][yIdx]
                                 map[xIdx][yIdx] = a
 
-                                if(check5inARow(map, cellAmount) == False):
+                                if(check5inARow(map, cellAmount) == False and check5inACol(map, cellAmount) == False):
                                     a = map[savedX][savedY]
                                     map[savedX][savedY] = map[xIdx][yIdx]
                                     map[xIdx][yIdx] = a
@@ -120,9 +126,13 @@ def main():
 
 
                                         elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] != 5):
-                                          map[x][y] = 0
-                                          map[x][y + 1] = 0
-                                          map[x][y + 2] = 0
-                                          map[x][y + 3] = 0
-                                          map[x][y + 4] = 0
+                                            map[x][y] = 0
+                                            map[x][y + 1] = 0
+                                            map[x][y + 2] = 0
+                                            map[x][y + 3] = 0
+                                            map[x][y + 4] = 0
+                                            for i in range (y):
+                                                map[x][y + 4 - i] = map[x][y - i - 1]
+                                            for a in range(0, 5):
+                                                map[x][a] = 0
 main()
