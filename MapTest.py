@@ -24,6 +24,19 @@ def Color(x):
     elif(x == 4):
        return (255, 0, 255)
     return (0, 0, 0)
+
+def check5inARow(map, cellAmount):
+    for y in range (cellAmount - 5):
+        for x in range(cellAmount - 5):
+            if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
+                print(x, y)
+                return True
+                
+    print(1)
+    return False
+
+
+
 def main():
     width = 800
     height = 800
@@ -77,11 +90,19 @@ def main():
                             savedX = xIdx
                             savedY = yIdx
                         else:
-                            if(abs(savedX - xIdx) <= 1 and abs(savedY - yIdx) <= 1):
-                                selected = False
+                            if(abs(savedX - xIdx) <= 1 and abs(savedY - yIdx) <= 1):   
+                                if((xIdx == savedX and yIdx == savedY)):
+                                    selected = False
+                                
                                 a = map[savedX][savedY]
                                 map[savedX][savedY] = map[xIdx][yIdx]
                                 map[xIdx][yIdx] = a
+
+                                if(check5inARow(map, cellAmount) == False):
+                                    a = map[savedX][savedY]
+                                    map[savedX][savedY] = map[xIdx][yIdx]
+                                    map[xIdx][yIdx] = a
+
                                 for y in range (cellAmount - 5):
                                     for x in range(cellAmount - 5):
                                         if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] != 5):
@@ -95,6 +116,7 @@ def main():
                                                     map[j][y - i] = map[j][y - i - 1]
                                             for a in range(x, x + 5):
                                                 map[a][0] = 0
+                                            selected = False
 
 
                                         elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] != 5):
