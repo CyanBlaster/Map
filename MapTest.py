@@ -30,6 +30,7 @@ def check5inARow(map, cellAmount):
         for x in range(cellAmount - 5):
             if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
                 return True
+    print(1)
     return False
 
 def check5inACol(map, cellAmount):
@@ -37,7 +38,8 @@ def check5inACol(map, cellAmount):
         for x in range(cellAmount - 5):
             if(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                 print(x, y)
-                return True     
+                return True 
+    print(2)    
     return False
 
 def check5inADia1(map, cellAmount):
@@ -45,15 +47,17 @@ def check5inADia1(map, cellAmount):
         for x in range(cellAmount - 5):
             if(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                 print(x, y)
-                return True     
+                return True 
+    print(3)    
     return False
 
 def check5inADia2(map, cellAmount):
     for y in range (cellAmount - 5):
         for x in range(cellAmount - 5):
-            if(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4] and map[x][y] >= 1 and map[x][y] <= 4):
+            if(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
                 print(x, y)
                 return True     
+    print(4)
     return False
 
 
@@ -126,7 +130,7 @@ def main():
 
                                 for y in range (cellAmount - 5):
                                     for x in range(cellAmount - 5):
-                                        if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] != 5):
+                                        if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
                                             map[x][y] = 0
                                             map[x + 1][y] = 0
                                             map[x + 2][y] = 0
@@ -139,7 +143,7 @@ def main():
                                                 map[a][0] = 0
                                             selected = False
 
-                                        elif(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] != 5):
+                                        elif(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                                             print(1)
                                             map[x][y] = 0
                                             map[x + 1][y + 1] = 0
@@ -149,7 +153,7 @@ def main():
                                             selected = False
 
 
-                                        elif(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] != 5):
+                                        elif(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
                                             print(2)
                                             map[x][y + 4] = 0
                                             map[x + 1][y + 3] = 0
@@ -159,7 +163,7 @@ def main():
                                             selected = False
 
 
-                                        elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] != 5):
+                                        elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                                             map[x][y] = 0
                                             map[x][y + 1] = 0
                                             map[x][y + 2] = 0
