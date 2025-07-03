@@ -27,6 +27,12 @@ def Color(x):
        return (255, 0, 255)
     return (0, 0, 0)
 
+def checkBlanks(map2, cellAmount):
+    for y in range(0, cellAmount):
+        for x in range(cellAmount):
+            if(map2[x][cellAmount - y - 1] == (0, 0, 0) and cellAmount - y -1 != 0):
+                map2[x][cellAmount - y - 1] = map2[x][cellAmount - y - 2]
+                map2[x][cellAmount - y - 2] = (0, 0, 0)
 
 
 
@@ -85,6 +91,18 @@ def main():
                             map[xIdx][yIdx] = 1
                         elif(map[xIdx][yIdx] == 1):
                             map[xIdx][yIdx] = 0
+                    elif events.key == pygame.K_RETURN:
+                        for y in range(cellAmount):
+                            for x in range(cellAmount):
+                                if (map[x][y] == 1):
+                                    map2[x][y] = (0, 0, 0)
+                                    map[x][y] = 0
+
+
+                        for i in range(0, cellAmount):
+                            checkBlanks(map2, cellAmount)
+
+                                    
 
             
                            
