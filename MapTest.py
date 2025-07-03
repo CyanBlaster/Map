@@ -151,6 +151,11 @@ def main():
                                             map[x + 3][y + 3] = 0
                                             map[x + 4][y + 4] = 0
                                             selected = False
+                                            for Y in range(y):
+                                                for X in range(x, x + 5):
+                                                    a = X - x
+                                                    map[X][y - Y + a] = map[X][y - Y + a - 1]
+
 
 
                                         elif(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
@@ -161,7 +166,10 @@ def main():
                                             map[x + 3][y + 1] = 0
                                             map[x + 4][y] = 0
                                             selected = False
-
+                                            for Y in range(y):
+                                                for X in range(x + 5, x, -1):
+                                                    a = X - x
+                                                    map[X][y - Y + a] = map[X][y - Y + a - 1]
 
                                         elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                                             map[x][y] = 0
