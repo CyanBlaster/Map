@@ -10,6 +10,8 @@ pygame.init()
 
 def ZeroField(n):
     return [[0] * n for i in range(n)]
+def ZeroTuple(n):
+    return [[(0, 0, 0)] * n for i in range(n)]
 
 def randomInteger():
     return random.randint(1, 5)
@@ -37,7 +39,12 @@ def main():
     screen = pygame.display.set_mode((width, height))
     running = True
     map = ZeroField(cellAmount)
-    map2 = ZeroField(cellAmount)
+    map2 = ZeroTuple(cellAmount)
+
+    for y in range(cellAmount):
+        for x in range(cellAmount):
+            map2[x][y] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
     while running:
 
             screen.fill((0, 0, 0))
@@ -46,7 +53,8 @@ def main():
             for y in range(cellAmount):
                 for x in range(cellAmount):
                     if (map[x][y] == 1):
-                        pygame.draw.rect(screen, (100, 100, 100), (x * 160 + 1, y * 160 + 1, 158, 158))
+                        pygame.draw.rect(screen, (255, 255, 255), (x * 160 + 1, y * 160 + 1, 158, 158))
+                    pygame.draw.circle(screen, map2[x][y], (x * height/cellAmount + height/cellAmount/ 2 + 1, y * width/cellAmount + width/cellAmount/ 2 + 1), 78)
             
             pygame.draw.rect(screen, (255, 255, 0), (xIdx * 160 + 1, yIdx * 160 + 1, 158, 158), 1, border_radius = 1)
 
