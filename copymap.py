@@ -99,7 +99,7 @@ def main():
                                     map[x][y] = 0
 
 
-                        for i in range(0, cellAmount):
+                        for i in range(0, cellAmount - 1):
                             checkBlanks(map2, cellAmount)
 
                                     
