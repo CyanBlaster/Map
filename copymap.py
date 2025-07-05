@@ -28,11 +28,11 @@ def Color(x):
     return (0, 0, 0)
 
 def checkBlanks(map2, cellAmount):
-    for y in range(0, cellAmount):
+    for y in range(cellAmount - 1, 0, -1):
         for x in range(cellAmount):
-            if(map2[x][cellAmount - y - 1] == (0, 0, 0) and cellAmount - y -1 != 0):
-                map2[x][cellAmount - y - 1] = map2[x][cellAmount - y - 2]
-                map2[x][cellAmount - y - 2] = (0, 0, 0)
+            if(map2[x][y] == (0, 0, 0) and y != 0):
+                map2[x][y] = map2[x][y -1]
+                map2[x][y - 1] = (0, 0, 0)
 
 
 

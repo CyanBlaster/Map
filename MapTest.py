@@ -60,6 +60,13 @@ def check5inADia2(map, cellAmount):
     print(4)
     return False
 
+def checkBlanks(map2, cellAmount):
+    for y in range(cellAmount - 1, 0, -1):
+        for x in range(cellAmount):
+            if(map2[x][y] == (0, 0, 0) and y != 0):
+                map2[x][y] = map2[x][y -1]
+                map2[x][y - 1] = (0, 0, 0)
+
 
 
 def main():
@@ -128,6 +135,8 @@ def main():
                                     map[savedX][savedY] = map[xIdx][yIdx]
                                     map[xIdx][yIdx] = a
 
+
+
                                 for y in range (cellAmount - 5):
                                     for x in range(cellAmount - 5):
                                         if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
@@ -136,11 +145,6 @@ def main():
                                             map[x + 2][y] = 0
                                             map[x + 3][y] = 0
                                             map[x + 4][y] = 0
-                                            for i in range (y):
-                                                for j in range(x, x + 5):
-                                                    map[j][y - i] = map[j][y - i - 1]
-                                            for a in range(x, x + 5):
-                                                map[a][0] = 0
                                             selected = False
 
                                         elif(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
@@ -151,11 +155,7 @@ def main():
                                             map[x + 3][y + 3] = 0
                                             map[x + 4][y + 4] = 0
                                             selected = False
-                                            for Y in range(y):
-                                                for X in range(x, x + 5):
-                                                    a = X - x
-                                                    map[X][y - Y + a] = map[X][y - Y + a - 1]
-
+                                           
 
 
                                         elif(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
@@ -166,20 +166,13 @@ def main():
                                             map[x + 3][y + 1] = 0
                                             map[x + 4][y] = 0
                                             selected = False
-                                            for Y in range(y):
-                                                for X in range(x + 5, x, -1):
-                                                    a = X - x
-                                                    map[X][y - Y + a] = map[X][y - Y + a - 1]
-
+                                           
                                         elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                                             map[x][y] = 0
                                             map[x][y + 1] = 0
                                             map[x][y + 2] = 0
                                             map[x][y + 3] = 0
                                             map[x][y + 4] = 0
-                                            for i in range (y):
-                                                map[x][y + 4 - i] = map[x][y - i - 1]
-                                            for a in range(0, 5):
-                                                map[x][a] = 0
+                                          
                                             selected = False
 main()
