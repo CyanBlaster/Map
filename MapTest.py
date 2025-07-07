@@ -62,12 +62,13 @@ def check5inADia2(map, cellAmount):
     print(4)
     return False
 
-def checkBlanks(map, cellAmount):
+def checkBlanks(map, cellAmount, mask):
     for y in range(cellAmount - 1, 0, -1):
         for x in range(cellAmount):
-            if((map[x][y] == 5 or map[x][y] == 6) and y != 0):
+            if((mask[x][y] == 1 or map[x][y] == 5) and y != 0):
                 map[x][y] = map[x][y - 1]
                 map[x][y - 1] = 5
+                mask[x][y] = 0
 
 
 
@@ -83,14 +84,15 @@ def main():
     screen = pygame.display.set_mode((width, height))
     running = True
     map = ZeroField(cellAmount)
+    mask = ZeroField(cellAmount)
     for y in range (cellAmount):
         for x in range(cellAmount):
             a = randomInteger()
             map[x][y] = a
             pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
     for i in range(0, cellAmount):
-        checkBlanks(map, cellAmount)
-        
+        checkBlanks(map, cellAmount, mask)
+
     while running:
             pygame.display.flip()
 
@@ -145,44 +147,44 @@ def main():
                                 for y in range (cellAmount - 5):
                                     for x in range(cellAmount - 5):
                                         if(map[x][y] == map[x + 1][y] == map[x + 2][y] == map[x + 3][y] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
-                                            map[x][y] = 6
-                                            map[x + 1][y] = 6
-                                            map[x + 2][y] = 6
-                                            map[x + 3][y] = 6
-                                            map[x + 4][y] = 6
+                                            mask[x][y] = 1
+                                            mask[x + 1][y] = 1
+                                            mask[x + 2][y] = 1
+                                            mask[x + 3][y] = 1
+                                            mask[x + 4][y] = 1
                                             selected = False
 
-                                        elif(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
+                                        if(map[x][y] == map[x + 1][y + 1] == map[x + 2][y + 2] == map[x + 3][y + 3] == map[x + 4][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
                                             print(1)
-                                            map[x][y] = 6
-                                            map[x + 1][y + 1] = 6
-                                            map[x + 2][y + 2] = 6
-                                            map[x + 3][y + 3] = 6
-                                            map[x + 4][y + 4] = 6
+                                            mask[x][y] = 1
+                                            mask[x + 1][y + 1] = 1
+                                            mask[x + 2][y + 2] = 1
+                                            mask[x + 3][y + 3] = 1
+                                            mask[x + 4][y + 4] = 1
                                             selected = False
                                            
 
 
-                                        elif(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
+                                        if(map[x][y + 4] == map[x + 1][y + 3] == map[x + 2][y + 2] == map[x + 3][y + 1] == map[x + 4][y] and map[x][y] >= 1 and map[x][y] <= 4):
                                             print(2)
-                                            map[x][y + 4] = 6
-                                            map[x + 1][y + 3] = 6
-                                            map[x + 2][y + 2] = 6
-                                            map[x + 3][y + 1] = 6
-                                            map[x + 4][y] = 6
+                                            mask[x][y + 4] = 1
+                                            mask[x + 1][y + 3] = 1
+                                            mask[x + 2][y + 2] = 1
+                                            mask[x + 3][y + 1] = 1
+                                            mask[x + 4][y] = 1
                                             selected = False
                                            
-                                        elif(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
-                                            map[x][y] = 6
-                                            map[x][y + 1] = 6
-                                            map[x][y + 2] = 6
-                                            map[x][y + 3] = 6
-                                            map[x][y + 4] = 6
+                                        if(map[x][y] == map[x][y + 1] == map[x][y + 2] == map[x][y + 3] == map[x][y + 4] and map[x][y] >= 1 and map[x][y] <= 4):
+                                            mask[x][y] = 1
+                                            mask[x][y + 1] = 1
+                                            mask[x][y + 2] = 1
+                                            mask[x][y + 3] = 1
+                                            mask[x][y + 4] = 1
                                           
                                             selected = False
 
                                 for i in range(0, cellAmount):
-                                    checkBlanks(map, cellAmount)
+                                    checkBlanks(map, cellAmount, mask)
 
 
                                         
