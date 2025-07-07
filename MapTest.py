@@ -36,13 +36,31 @@ def check5inARow(map, cellAmount):
     return False
 
 def check5inACol(map, cellAmount):
-    for y in range (cellAmount - 5):
-        for x in range(cellAmount - 5):
-            if(map[y][x] == map[y + 1][x] == map[y + 2][x] == map[y + 3][x] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
-                print(x, y)
-                return True 
-    print(2)    
-    return False
+    j = 0
+    for y in range (cellAmount):
+        for x in range(cellAmount):
+            i = 1
+            while(y + i < cellAmount and map[y][x] == map[y + i][x] and map[y + i][x] != 0):
+                print("loop", y + i, x)
+                i += 1
+            if(i > j):
+                j = i
+    return j
+
+def NumRepeatedInColumn(map, startX, startY):
+    i = 1
+    while(startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX] and map[startY + i][startX] != 0):
+        print("loop", startY + i, startX)
+        i += 1
+    return i
+
+def NumRepeatedInRow(map, startX, startY):
+    i = 1
+    while(startX + i <= len(map) - 1 and map[startY][startX] == map[startY][startX + i ] and map[startY][startX + i] != 0):
+        print("loop", startY, startX + i)
+        i += 1
+    return i
+
 
 def check5inADia1(map, cellAmount):
     for y in range (cellAmount - 5):
@@ -92,10 +110,11 @@ def main():
     #         map[y][x] = randomInteger()
     map[0][0] = 1
     map[1][0] = 1
-    map[2][0] = 2
+    map[2][0] = 1
     map[2][1] = 1
     map[3][0] = 1
     map[4][0] = 1
+    map[5][0] = 1
     map[5][1] = 3
     map[6][1] = 3
     for i in range(cellAmount):
@@ -138,9 +157,15 @@ def main():
                     elif events.key == pygame.K_UP:
                         pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
                         yIdx -= 1
+                    
                     elif events.key == pygame.K_DOWN:
                         pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
                         yIdx += 1
+
+
+                    elif events.key == pygame.K_1:
+                        print(NumRepeatedInColumn(map, xIdx, yIdx))
+
                     elif events.key == pygame.K_SPACE:
                         if(selected == False):
                             selected = True
@@ -157,13 +182,15 @@ def main():
                                 a = map[savedY][savedX]
                                 map[savedY][savedX] = map[yIdx][xIdx]
                                 map[yIdx][xIdx] = a
-                                print(map[yIdx][xIdx])
+                                # print(map[yIdx][xIdx])
                                 selected = False
 
                                 # if(check5inARow(map, cellAmount) == False and check5inACol(map, cellAmount) == False and check5inADia1(map, cellAmount) == False and check5inADia2(map, cellAmount) == False):
                                 #     a = map[savedX][savedY]
                                 #     map[savedX][savedY] = map[xIdx][yIdx]
                                 #     map[xIdx][yIdx] = a
+
+                                
 
                                 for y in range (cellAmount - 5):
                                     for x in range(cellAmount - 5):
