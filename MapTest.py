@@ -12,7 +12,7 @@ def ZeroField(n):
     return [[0] * n for i in range(n)]
 
 def randomInteger():
-    return random.randint(1, 5)
+    return random.randint(1, 4)
     
 def Color(x):
     if(x == 1):
@@ -87,10 +87,8 @@ def main():
     mask = ZeroField(cellAmount)
     for y in range (cellAmount):
         for x in range(cellAmount):
-            a = randomInteger()
-            map[x][y] = a
-            pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
-    for i in range(0, cellAmount):
+            map[x][y] = randomInteger()
+    for i in range(cellAmount):
         checkBlanks(map, cellAmount, mask)
 
     while running:
@@ -103,8 +101,13 @@ def main():
 
             for y in range (cellAmount):
                 for x in range(cellAmount):
-                  pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
+                    pygame.draw.circle(screen, Color(map[x][y]), (x * cellAmount + 19, y * cellAmount + 19), 19)
+                    if(map[x][y] == 5):
+                        pygame.draw.rect(screen, (0, 0, 0), (x * cellAmount, y * cellAmount, 38, 38))
+                
             pygame.draw.rect(screen, (255, 255, 255), (xIdx * cellAmount - 1, yIdx * cellAmount - 1, 40, 40), 1, border_radius = 1)
+
+            
 
 
 
@@ -183,7 +186,7 @@ def main():
                                           
                                             selected = False
 
-                                for i in range(0, cellAmount):
+                                for i in range(cellAmount):
                                     checkBlanks(map, cellAmount, mask)
 
 
