@@ -85,17 +85,24 @@ def NumRepeatedInDia1(map, startX, startY):
 
 def Dia1Disappear(map, startX, startY):
     a = NumRepeatedInDia1(map, startX, startY)
-    print("Total in le diagonal 1", a)
+    print("Total in le diagonal1", a)
     if(a >= 3):
         for i in range(a):
             map[startY + i][startX + i] = 0
 
 def NumRepeatedInDia2(map, startX, startY):
     i = 1
-    while(startX + i <= len(map) - 1 and startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX + i] and map[startY + i][startX + i] != 0):
-        print("loop", startY + i, startX + i)
+    while(startX - i >= 0  and startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX - i] and map[startY + i][startX - i] != 0):
+        print("loop", startY + i, startX - i)
         i += 1
     return i
+
+def Dia2Disappear(map, startX, startY):
+    a = NumRepeatedInDia2(map, startX, startY)
+    print("Total in le diagonal2", a)
+    if(a >= 3):
+        for i in range(a):
+            map[startY + i][startX - i] = 0
 
 def check5inADia1(map, cellAmount):
     for y in range (cellAmount - 5):
@@ -154,13 +161,12 @@ def main():
     map[6][1] = 3
 
 
-    map[6][18] = 3
-    map[6][17] = 2
+    map[0][17] = 2
+    map[0][16] = 2
+    map[0][15] = 2
     map[5][17] = 3
-    map[6][16] = 2
-    map[5][16] = 2
     map[5][16] = 3
-    map[4][16] = 3
+    map[6][17] = 3
     
     for i in range(cellAmount):
         checkBlanks(map, cellAmount, mask)
@@ -242,6 +248,9 @@ def main():
                                 for y in range (cellAmount - 1):
                                     for x in range(cellAmount - 1):
                                         Dia1Disappear(map, x, y)
+                                for y in range (cellAmount - 1, 0, -1):
+                                    for x in range(cellAmount - 1, 0, -1):
+                                        Dia2Disappear(map, x, y)
 
 
 
