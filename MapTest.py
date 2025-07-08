@@ -49,20 +49,53 @@ def check5inACol(map, cellAmount):
 
 def NumRepeatedInColumn(map, startX, startY):
     i = 1
-    print(startY, startX, startY + i, startX)
-    print(map[startY][startX], map[startY + i][startX])
+    print(startY + i, len(map))
     while(startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX] and map[startY + i][startX] != 0):
         print("loop", startY + i, startX)
         i += 1
     return i
 
+
+def ColumnDisappear(map, startX, startY):
+    a = NumRepeatedInColumn(map, startX, startY)
+    print("Total in le column", a)
+    if(a >= 3):
+        for i in range(a):
+            map[startY + i][startX] = 0
+
 def NumRepeatedInRow(map, startX, startY):
     i = 1
-    while(startX + i <= len(map) - 1 and map[startY][startX] == map[startY][startX + i ] and map[startY][startX + i] != 0):
+    while(startX + i <= len(map) - 1 and map[startY][startX] == map[startY][startX + i] and map[startY][startX + i] != 0):
         print("loop", startY, startX + i)
         i += 1
     return i
+def RowDisappear(map, startX, startY):
+    a = NumRepeatedInRow(map, startX, startY)
+    print("Total in le row", a)
+    if(a >= 3):
+        for i in range(a):
+            map[startY][startX + i] = 0
 
+def NumRepeatedInDia1(map, startX, startY):
+    i = 1
+    while(startX + i <= len(map) - 1 and startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX + i] and map[startY + i][startX + i] != 0):
+        print("loop", startY + i, startX + i)
+        i += 1
+    return i
+
+def Dia1Disappear(map, startX, startY):
+    a = NumRepeatedInDia1(map, startX, startY)
+    print("Total in le diagonal 1", a)
+    if(a >= 3):
+        for i in range(a):
+            map[startY + i][startX + i] = 0
+
+def NumRepeatedInDia2(map, startX, startY):
+    i = 1
+    while(startX + i <= len(map) - 1 and startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX + i] and map[startY + i][startX + i] != 0):
+        print("loop", startY + i, startX + i)
+        i += 1
+    return i
 
 def check5inADia1(map, cellAmount):
     for y in range (cellAmount - 5):
@@ -119,6 +152,16 @@ def main():
     map[2][1] = 1
     map[5][1] = 3
     map[6][1] = 3
+
+
+    map[6][18] = 3
+    map[6][17] = 2
+    map[5][17] = 3
+    map[6][16] = 2
+    map[5][16] = 2
+    map[5][16] = 3
+    map[4][16] = 3
+    
     for i in range(cellAmount):
         checkBlanks(map, cellAmount, mask)
     while running:
@@ -132,7 +175,6 @@ def main():
 
             for y in range (cellAmount):
                 for x in range(cellAmount):
-                    if map[y][x] != 0:
                         #print(x, y, map[y][x])
                         pygame.draw.circle(screen, Color(map[y][x]), (x * wCell + 19, y * hCell + 19), 19)
                     # if(map[y][x] == 0):
@@ -168,6 +210,7 @@ def main():
 
                     elif events.key == pygame.K_1:
                         print(NumRepeatedInColumn(map, xIdx, yIdx))
+                        
 
                     elif events.key == pygame.K_SPACE:
                         if(selected == False):
@@ -188,6 +231,19 @@ def main():
                                 print("after swap", map[savedY][savedX], map[yIdx][xIdx])
                                 # print(map[yIdx][xIdx])
                                 selected = False
+                        
+
+                                for y in range (cellAmount - 1):
+                                     for x in range(cellAmount):
+                                        ColumnDisappear(map, x, y)
+                                for y in range (cellAmount):
+                                    for x in range(cellAmount - 1):
+                                        RowDisappear(map, x, y)
+                                for y in range (cellAmount - 1):
+                                    for x in range(cellAmount - 1):
+                                        Dia1Disappear(map, x, y)
+
+
 
                                 # if(check5inARow(map, cellAmount) == False and check5inACol(map, cellAmount) == False and check5inADia1(map, cellAmount) == False and check5inADia2(map, cellAmount) == False):
                                 #     a = map[savedX][savedY]
