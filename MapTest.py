@@ -49,6 +49,8 @@ def check5inACol(map, cellAmount):
 
 def NumRepeatedInColumn(map, startX, startY):
     i = 1
+    print(startY, startX, startY + i, startX)
+    print(map[startY][startX], map[startY + i][startX])
     while(startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX] and map[startY + i][startX] != 0):
         print("loop", startY + i, startX)
         i += 1
@@ -111,10 +113,10 @@ def main():
     map[0][0] = 1
     map[1][0] = 1
     map[2][0] = 1
-    map[2][1] = 1
-    map[3][0] = 1
+    map[3][0] = 2
     map[4][0] = 1
     map[5][0] = 1
+    map[2][1] = 1
     map[5][1] = 3
     map[6][1] = 3
     for i in range(cellAmount):
@@ -125,7 +127,8 @@ def main():
             if(selected):
                 pygame.draw.rect(screen, (100, 100, 100), (savedX * wCell - 1, savedY * hCell - 1, 40, 40))
             else:
-                pygame.draw.rect(screen, (0, 0, 0), (savedX * wCell - 1, savedY * hCell - 1, 40, 40))
+                pygame.draw.rect(screen, (1, 1, 1), (savedX * wCell - 1, savedY * hCell - 1, 40, 40))
+                
 
             for y in range (cellAmount):
                 for x in range(cellAmount):
@@ -171,17 +174,18 @@ def main():
                             selected = True
                             savedX = xIdx
                             savedY = yIdx
-                            print(savedX, savedY)
+                            print(savedY, savedX)
                             
                         else:
                             if(abs(savedX - xIdx) <= 1 and abs(savedY - yIdx) <= 1):   
                                 if((xIdx == savedX and yIdx == savedY)):
                                     selected = False
                                 
-                                
+                                print("before swap", map[savedY][savedX], map[yIdx][xIdx])
                                 a = map[savedY][savedX]
                                 map[savedY][savedX] = map[yIdx][xIdx]
                                 map[yIdx][xIdx] = a
+                                print("after swap", map[savedY][savedX], map[yIdx][xIdx])
                                 # print(map[yIdx][xIdx])
                                 selected = False
 
@@ -192,45 +196,45 @@ def main():
 
                                 
 
-                                for y in range (cellAmount - 5):
-                                    for x in range(cellAmount - 5):
-                                        if(map[y][x] == map[y + 1][x] == map[y + 2][x] == map[y + 3][x] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
-                                            mask[y][x] = 1
-                                            mask[y + 1][x] = 1
-                                            mask[y + 2][x] = 1
-                                            mask[y + 3][x] = 1
-                                            mask[y + 4][x] = 1
-                                            print("")
-                                            selected = False
+                                # for y in range (cellAmount - 5):
+                                #     for x in range(cellAmount - 5):
+                                #         if(map[y][x] == map[y + 1][x] == map[y + 2][x] == map[y + 3][x] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
+                                #             mask[y][x] = 1
+                                #             mask[y + 1][x] = 1
+                                #             mask[y + 2][x] = 1
+                                #             mask[y + 3][x] = 1
+                                #             mask[y + 4][x] = 1
+                                #             print("")
+                                #             selected = False
 
-                                        if(map[y][x] == map[y + 1][x + 1] == map[y + 2][x + 2] == map[y + 3][x + 3] == map[y + 4][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
-                                            print(1)
-                                            mask[y][x] = 1
-                                            mask[y + 1][x + 1] = 1
-                                            mask[y + 2][x + 2] = 1
-                                            mask[y + 3][x + 3] = 1
-                                            mask[y + 4][x + 4] = 1
-                                            selected = False
+                                #         if(map[y][x] == map[y + 1][x + 1] == map[y + 2][x + 2] == map[y + 3][x + 3] == map[y + 4][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
+                                #             print(1)
+                                #             mask[y][x] = 1
+                                #             mask[y + 1][x + 1] = 1
+                                #             mask[y + 2][x + 2] = 1
+                                #             mask[y + 3][x + 3] = 1
+                                #             mask[y + 4][x + 4] = 1
+                                #             selected = False
                                            
 
 
-                                        if(map[y][x + 4] == map[y + 1][x + 3] == map[y + 2][x + 2] == map[y + 3][x + 1] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
-                                            print(2)
-                                            mask[y][x + 4] = 1
-                                            mask[y + 1][x + 3] = 1
-                                            mask[y + 2][x + 2] = 1
-                                            mask[y + 3][x + 1] = 1
-                                            mask[y + 4][x] = 1
-                                            selected = False
+                                #         if(map[y][x + 4] == map[y + 1][x + 3] == map[y + 2][x + 2] == map[y + 3][x + 1] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
+                                #             print(2)
+                                #             mask[y][x + 4] = 1
+                                #             mask[y + 1][x + 3] = 1
+                                #             mask[y + 2][x + 2] = 1
+                                #             mask[y + 3][x + 1] = 1
+                                #             mask[y + 4][x] = 1
+                                #             selected = False
                                            
-                                        if(map[y][x] == map[y][x + 1] == map[y][x + 2] == map[y][x + 3] == map[y][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
-                                            mask[y][x] = 1
-                                            mask[y][x + 1] = 1
-                                            mask[y][x + 2] = 1
-                                            mask[y][x + 3] = 1
-                                            mask[y][x + 4] = 1
+                                #         if(map[y][x] == map[y][x + 1] == map[y][x + 2] == map[y][x + 3] == map[y][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
+                                #             mask[y][x] = 1
+                                #             mask[y][x + 1] = 1
+                                #             mask[y][x + 2] = 1
+                                #             mask[y][x + 3] = 1
+                                #             mask[y][x + 4] = 1
                                           
-                                            selected = False
+                                #             selected = False
 
                                 for i in range(cellAmount):
                                     checkBlanks(map, cellAmount, mask)
