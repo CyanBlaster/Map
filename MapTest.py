@@ -27,26 +27,6 @@ def Color(x):
         return (0, 0, 0)
     return (255, 255, 255)
 
-def check5inARow(map, cellAmount):
-    for y in range (cellAmount - 5):
-        for x in range(cellAmount - 5):
-            if(map[y][x] == map[y][x + 1] == map[y][x + 2] == map[y][x + 3] == map[y][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
-                return True
-    print(1)
-    return False
-
-def check5inACol(map, cellAmount):
-    j = 0
-    for y in range (cellAmount):
-        for x in range(cellAmount):
-            i = 1
-            while(y + i < cellAmount and map[y][x] == map[y + i][x] and map[y + i][x] != 0):
-                print("loop", y + i, x)
-                i += 1
-            if(i > j):
-                j = i
-    return j
-
 def NumRepeatedInColumn(map, startX, startY):
     i = 1
     print(startY + i, len(map))
@@ -56,12 +36,12 @@ def NumRepeatedInColumn(map, startX, startY):
     return i
 
 
-def ColumnDisappear(map, startX, startY):
+def ColumnDisappear(map, startX, startY, mask, m):
     a = NumRepeatedInColumn(map, startX, startY)
     print("Total in le column", a)
-    if(a >= 3):
+    if(a >= m):
         for i in range(a):
-            map[startY + i][startX] = 0
+            mask[startY + i][startX] = 1
 
 def NumRepeatedInRow(map, startX, startY):
     i = 1
@@ -69,12 +49,12 @@ def NumRepeatedInRow(map, startX, startY):
         print("loop", startY, startX + i)
         i += 1
     return i
-def RowDisappear(map, startX, startY):
+def RowDisappear(map, startX, startY, mask, m):
     a = NumRepeatedInRow(map, startX, startY)
     print("Total in le row", a)
-    if(a >= 3):
+    if(a >= m):
         for i in range(a):
-            map[startY][startX + i] = 0
+            mask[startY][startX + i] = 1
 
 def NumRepeatedInDia1(map, startX, startY):
     i = 1
@@ -83,12 +63,12 @@ def NumRepeatedInDia1(map, startX, startY):
         i += 1
     return i
 
-def Dia1Disappear(map, startX, startY):
+def Dia1Disappear(map, startX, startY, mask, m):
     a = NumRepeatedInDia1(map, startX, startY)
     print("Total in le diagonal1", a)
-    if(a >= 3):
+    if(a >= m):
         for i in range(a):
-            map[startY + i][startX + i] = 0
+            mask[startY + i][startX + i] = 1
 
 def NumRepeatedInDia2(map, startX, startY):
     i = 1
@@ -97,33 +77,17 @@ def NumRepeatedInDia2(map, startX, startY):
         i += 1
     return i
 
-def Dia2Disappear(map, startX, startY):
+def Dia2Disappear(map, startX, startY, mask, m):
     a = NumRepeatedInDia2(map, startX, startY)
     print("Total in le diagonal2", a)
-    if(a >= 3):
+    if(a >= m):
         for i in range(a):
-            map[startY + i][startX - i] = 0
+            mask[startY + i][startX - i] = 1
 
-def check5inADia1(map, cellAmount):
-    for y in range (cellAmount - 5):
-        for x in range(cellAmount - 5):
-            if(map[y][x] == map[y + 1][x + 1] == map[y + 2][x + 2] == map[y + 3][x + 3] == map[y + 4][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
-                print(x, y)
-                return True
-    print(3)    
-    return False
 
-def check5inADia2(map, cellAmount):
-    for y in range (cellAmount - 5):
-        for x in range(cellAmount - 5):
-            if(map[y][x + 4] == map[y + 1][x + 3] == map[y + 2][x + 2] == map[y + 3][x + 1] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
-                print(x, y)
-                return True     
-    print(4)
-    return False
 
 def checkBlanks(map, cellAmount, mask):
-    for y in range(cellAmount - 1, 0, -1):
+    for y in range(1, cellAmount):
         for x in range(0, cellAmount):
             if((mask[y][x] == 1 or map[y][x] == 0)):
                 map[y][x] = map[y - 1][x]
@@ -143,30 +107,52 @@ def main():
     savedX = 0
     savedY = 0
     selected = False
+    minimumLen = 5
     screen = pygame.display.set_mode((width, height))
     running = True
     map = ZeroField(cellAmount)
     mask = ZeroField(cellAmount)
-    # for y in range (cellAmount):
-    #     for x in range(cellAmount):
-    #         map[y][x] = randomInteger()
-    map[0][0] = 1
-    map[1][0] = 1
-    map[2][0] = 1
-    map[3][0] = 2
-    map[4][0] = 1
-    map[5][0] = 1
-    map[2][1] = 1
-    map[5][1] = 3
-    map[6][1] = 3
+    for y in range (cellAmount):
+        for x in range(cellAmount):
+            map[y][x] = randomInteger()
+    # map[0][0] = 1
+    # map[1][0] = 1
+    # map[2][0] = 1
+    # map[3][0] = 2
+    # map[4][0] = 1
+    # map[5][0] = 1
+    # map[2][1] = 1
+    # map[5][1] = 3
+    # map[6][1] = 3
+    # map = [
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [3, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [4, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 
-    map[0][17] = 2
-    map[0][16] = 2
-    map[0][15] = 2
-    map[5][17] = 3
-    map[5][16] = 3
-    map[6][17] = 3
+    # map[0][17] = 2
+    # map[0][16] = 2
+    # map[0][15] = 2
+    # map[5][17] = 3
+    # map[5][16] = 3
+    # map[6][17] = 3
     
     for i in range(cellAmount):
         checkBlanks(map, cellAmount, mask)
@@ -240,66 +226,17 @@ def main():
                         
 
                                 for y in range (cellAmount - 1):
-                                     for x in range(cellAmount):
-                                        ColumnDisappear(map, x, y)
+                                    for x in range(cellAmount):
+                                        ColumnDisappear(map, x, y, mask, minimumLen)
                                 for y in range (cellAmount):
                                     for x in range(cellAmount - 1):
-                                        RowDisappear(map, x, y)
+                                        RowDisappear(map, x, y, mask, minimumLen)
                                 for y in range (cellAmount - 1):
                                     for x in range(cellAmount - 1):
-                                        Dia1Disappear(map, x, y)
+                                        Dia1Disappear(map, x, y, mask, minimumLen)
                                 for y in range (cellAmount - 1, 0, -1):
                                     for x in range(cellAmount - 1, 0, -1):
-                                        Dia2Disappear(map, x, y)
-
-
-
-                                # if(check5inARow(map, cellAmount) == False and check5inACol(map, cellAmount) == False and check5inADia1(map, cellAmount) == False and check5inADia2(map, cellAmount) == False):
-                                #     a = map[savedX][savedY]
-                                #     map[savedX][savedY] = map[xIdx][yIdx]
-                                #     map[xIdx][yIdx] = a
-
-                                
-
-                                # for y in range (cellAmount - 5):
-                                #     for x in range(cellAmount - 5):
-                                #         if(map[y][x] == map[y + 1][x] == map[y + 2][x] == map[y + 3][x] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
-                                #             mask[y][x] = 1
-                                #             mask[y + 1][x] = 1
-                                #             mask[y + 2][x] = 1
-                                #             mask[y + 3][x] = 1
-                                #             mask[y + 4][x] = 1
-                                #             print("")
-                                #             selected = False
-
-                                #         if(map[y][x] == map[y + 1][x + 1] == map[y + 2][x + 2] == map[y + 3][x + 3] == map[y + 4][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
-                                #             print(1)
-                                #             mask[y][x] = 1
-                                #             mask[y + 1][x + 1] = 1
-                                #             mask[y + 2][x + 2] = 1
-                                #             mask[y + 3][x + 3] = 1
-                                #             mask[y + 4][x + 4] = 1
-                                #             selected = False
-                                           
-
-
-                                #         if(map[y][x + 4] == map[y + 1][x + 3] == map[y + 2][x + 2] == map[y + 3][x + 1] == map[y + 4][x] and map[y][x] >= 1 and map[y][x] <= 4):
-                                #             print(2)
-                                #             mask[y][x + 4] = 1
-                                #             mask[y + 1][x + 3] = 1
-                                #             mask[y + 2][x + 2] = 1
-                                #             mask[y + 3][x + 1] = 1
-                                #             mask[y + 4][x] = 1
-                                #             selected = False
-                                           
-                                #         if(map[y][x] == map[y][x + 1] == map[y][x + 2] == map[y][x + 3] == map[y][x + 4] and map[y][x] >= 1 and map[y][x] <= 4):
-                                #             mask[y][x] = 1
-                                #             mask[y][x + 1] = 1
-                                #             mask[y][x + 2] = 1
-                                #             mask[y][x + 3] = 1
-                                #             mask[y][x + 4] = 1
-                                          
-                                #             selected = False
+                                        Dia2Disappear(map, x, y, mask, minimumLen)
 
                                 for i in range(cellAmount):
                                     checkBlanks(map, cellAmount, mask)
