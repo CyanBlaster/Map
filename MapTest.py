@@ -7,6 +7,7 @@ import random
 
 pygame.init()
 
+GAME_FONT = pygame.freetype.Font("DayDream.ttf", 24)
 
 def ZeroField(n):
     return [[0] * n for i in range(n)]
@@ -29,70 +30,70 @@ def Color(x):
 
 def NumRepeatedInColumn(map, startX, startY):
     i = 1
-    print(startY + i, len(map))
     while(startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX] and map[startY + i][startX] != 0):
-        print("loop", startY + i, startX)
         i += 1
     return i
 
 
 def ColumnDisappear(map, startX, startY, mask, m):
     a = NumRepeatedInColumn(map, startX, startY)
-    print("Total in le column", a)
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX] = 1
-
+        
 def NumRepeatedInRow(map, startX, startY):
     i = 1
     while(startX + i <= len(map) - 1 and map[startY][startX] == map[startY][startX + i] and map[startY][startX + i] != 0):
-        print("loop", startY, startX + i)
         i += 1
     return i
 def RowDisappear(map, startX, startY, mask, m):
     a = NumRepeatedInRow(map, startX, startY)
-    print("Total in le row", a)
     if(a >= m):
         for i in range(a):
             mask[startY][startX + i] = 1
+       
 
 def NumRepeatedInDia1(map, startX, startY):
     i = 1
     while(startX + i <= len(map) - 1 and startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX + i] and map[startY + i][startX + i] != 0):
-        print("loop", startY + i, startX + i)
         i += 1
     return i
 
 def Dia1Disappear(map, startX, startY, mask, m):
     a = NumRepeatedInDia1(map, startX, startY)
-    print("Total in le diagonal1", a)
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX + i] = 1
+        
 
 def NumRepeatedInDia2(map, startX, startY):
     i = 1
     while(startX - i >= 0  and startY + i <= len(map) - 1 and map[startY][startX] == map[startY + i][startX - i] and map[startY + i][startX - i] != 0):
-        print("loop", startY + i, startX - i)
         i += 1
     return i
 
 def Dia2Disappear(map, startX, startY, mask, m):
     a = NumRepeatedInDia2(map, startX, startY)
-    print("Total in le diagonal2", a)
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX - i] = 1
+        
+    
 
 
 
 def checkBlanks(map, cellAmount, mask):
-    for y in range(1, cellAmount):
+    add = 0
+    for y in range(0, cellAmount):
         for x in range(0, cellAmount):
             if((mask[y][x] == 1 or map[y][x] == 0)):
+                if(mask[y][x] == 1):
+                    add += 1
                 map[y][x] = map[y - 1][x]
                 map[y - 1][x] = 0
                 mask[y][x] = 0
+    return add
+
 
 
 
@@ -108,7 +109,8 @@ def main():
     savedY = 0
     selected = False
     minimumLen = 5
-    screen = pygame.display.set_mode((width, height))
+    score = 0
+    screen = pygame.display.set_mode((width + 200, height))
     running = True
     map = ZeroField(cellAmount)
     mask = ZeroField(cellAmount)
@@ -158,6 +160,12 @@ def main():
         checkBlanks(map, cellAmount, mask)
     while running:
             pygame.display.flip()
+            screen.fill((0, 0, 0))
+
+            text_surface, rect = GAME_FONT.render("Score:", (255, 0, 0))
+            text, rect = GAME_FONT.render(str(score), (255, 0, 0))
+            screen.blit(text_surface, (850, 300))
+            screen.blit(text, (850, 340))
 
             if(selected):
                 pygame.draw.rect(screen, (100, 100, 100), (savedX * wCell - 1, savedY * hCell - 1, 40, 40))
@@ -168,6 +176,8 @@ def main():
             for y in range (cellAmount):
                 for x in range(cellAmount):
                         #print(x, y, map[y][x])
+                        if(map[y][x] == 0):
+                            map[y][x] = randomInteger()
                         pygame.draw.circle(screen, Color(map[y][x]), (x * wCell + 19, y * hCell + 19), 19)
                     # if(map[y][x] == 0):
                     #     pygame.draw.rect(screen, (0, 0, 0), (x * cellAmount, y * cellAmount, 38, 38))
@@ -186,18 +196,22 @@ def main():
                     running = False
                 if events.type == pygame.KEYDOWN:
                     if events.key == pygame.K_LEFT:
-                        pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
-                        xIdx -= 1
+                        if(xIdx > 0):
+                            pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
+                            xIdx -= 1
                     elif events.key == pygame.K_RIGHT:
-                        pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
-                        xIdx += 1
+                        if(xIdx < cellAmount - 1):
+                            pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
+                            xIdx += 1
                     elif events.key == pygame.K_UP:
-                        pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
-                        yIdx -= 1
+                        if(yIdx > 0):
+                            pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
+                            yIdx -= 1
                     
                     elif events.key == pygame.K_DOWN:
-                        pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
-                        yIdx += 1
+                        if(yIdx < cellAmount - 1):
+                            pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
+                            yIdx += 1
 
 
                     elif events.key == pygame.K_1:
@@ -209,18 +223,16 @@ def main():
                             selected = True
                             savedX = xIdx
                             savedY = yIdx
-                            print(savedY, savedX)
+                        
                             
                         else:
                             if(abs(savedX - xIdx) <= 1 and abs(savedY - yIdx) <= 1):   
                                 if((xIdx == savedX and yIdx == savedY)):
                                     selected = False
                                 
-                                print("before swap", map[savedY][savedX], map[yIdx][xIdx])
                                 a = map[savedY][savedX]
                                 map[savedY][savedX] = map[yIdx][xIdx]
                                 map[yIdx][xIdx] = a
-                                print("after swap", map[savedY][savedX], map[yIdx][xIdx])
                                 # print(map[yIdx][xIdx])
                                 selected = False
                         
@@ -239,7 +251,7 @@ def main():
                                         Dia2Disappear(map, x, y, mask, minimumLen)
 
                                 for i in range(cellAmount):
-                                    checkBlanks(map, cellAmount, mask)
+                                    score += checkBlanks(map, cellAmount, mask)
 
 
                                         
