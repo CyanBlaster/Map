@@ -19,11 +19,11 @@ def Color(x):
     if(x == 1):
         return (255, 0, 0)
     elif(x == 2):
-       return (0, 255, 0)
+        return (0, 255, 0)
     elif(x == 3):
-       return (0, 0, 255)
+        return (0, 0, 255)
     elif(x == 4):
-       return (255, 0, 255)
+        return (255, 0, 255)
     elif(x == 0):
         return (0, 0, 0)
     return (255, 255, 255)
@@ -40,6 +40,8 @@ def ColumnDisappear(map, startX, startY, mask, m):
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX] = 1
+        return True
+    return False
         
 def NumRepeatedInRow(map, startX, startY):
     i = 1
@@ -51,6 +53,8 @@ def RowDisappear(map, startX, startY, mask, m):
     if(a >= m):
         for i in range(a):
             mask[startY][startX + i] = 1
+        return True
+    return False
        
 
 def NumRepeatedInDia1(map, startX, startY):
@@ -64,6 +68,8 @@ def Dia1Disappear(map, startX, startY, mask, m):
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX + i] = 1
+        return True
+    return False
         
 
 def NumRepeatedInDia2(map, startX, startY):
@@ -77,6 +83,8 @@ def Dia2Disappear(map, startX, startY, mask, m):
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX - i] = 1
+        return True
+    return False
         
     
 
@@ -117,15 +125,6 @@ def main():
     for y in range (cellAmount):
         for x in range(cellAmount):
             map[y][x] = randomInteger()
-    # map[0][0] = 1
-    # map[1][0] = 1
-    # map[2][0] = 1
-    # map[3][0] = 2
-    # map[4][0] = 1
-    # map[5][0] = 1
-    # map[2][1] = 1
-    # map[5][1] = 3
-    # map[6][1] = 3
     # map = [
     #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -147,14 +146,6 @@ def main():
     #     [4, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     #     [2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     #     [1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-
-    # map[0][17] = 2
-    # map[0][16] = 2
-    # map[0][15] = 2
-    # map[5][17] = 3
-    # map[5][16] = 3
-    # map[6][17] = 3
     
     for i in range(cellAmount):
         checkBlanks(map, cellAmount, mask)
@@ -235,25 +226,28 @@ def main():
                                 map[yIdx][xIdx] = a
                                 # print(map[yIdx][xIdx])
                                 selected = False
-                        
-
-                                for y in range (cellAmount - 1):
-                                    for x in range(cellAmount):
-                                        ColumnDisappear(map, x, y, mask, minimumLen)
-                                for y in range (cellAmount):
-                                    for x in range(cellAmount - 1):
-                                        RowDisappear(map, x, y, mask, minimumLen)
-                                for y in range (cellAmount - 1):
-                                    for x in range(cellAmount - 1):
-                                        Dia1Disappear(map, x, y, mask, minimumLen)
-                                for y in range (cellAmount - 1, 0, -1):
-                                    for x in range(cellAmount - 1, 0, -1):
-                                        Dia2Disappear(map, x, y, mask, minimumLen)
-
-                                for i in range(cellAmount):
-                                    score += checkBlanks(map, cellAmount, mask)
-
-
-                                        
                                 
+                                c = True
+                                r = True
+                                d = True
+                                D = True
+
+
+
+                                while(c and r and d and D):
+                                    for y in range (cellAmount - 1):
+                                        for x in range(cellAmount):
+                                            c = ColumnDisappear(map, x, y, mask, minimumLen)
+                                    for y in range (cellAmount):
+                                        for x in range(cellAmount - 1):
+                                            r = RowDisappear(map, x, y, mask, minimumLen)
+                                    for y in range (cellAmount - 1):
+                                        for x in range(cellAmount - 1):
+                                            d = Dia1Disappear(map, x, y, mask, minimumLen)
+                                    for y in range (cellAmount - 1, 0, -1):
+                                        for x in range(cellAmount - 1, 0, -1):
+                                            D = Dia2Disappear(map, x, y, mask, minimumLen)
+                                    for i in range(cellAmount):
+                                        score += checkBlanks(map, cellAmount, mask)
+
 main()
