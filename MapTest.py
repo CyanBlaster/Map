@@ -120,6 +120,7 @@ def main():
     score = 0
     screen = pygame.display.set_mode((width + 200, height))
     running = True
+    start = False
     map = ZeroField(cellAmount)
     mask = ZeroField(cellAmount)
     for y in range (cellAmount):
@@ -146,9 +147,9 @@ def main():
     #     [4, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     #     [2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     #     [1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    
     for i in range(cellAmount):
         checkBlanks(map, cellAmount, mask)
+    score = 0
     while running:
             pygame.display.flip()
             screen.fill((0, 0, 0))
@@ -209,7 +210,8 @@ def main():
                 print("Diagonal2", D)
                 for i in range(cellAmount):
                     score += checkBlanks(map, cellAmount, mask)
-
+            if(start == False):
+                score = 0
 
 
 
@@ -242,6 +244,8 @@ def main():
 
                     elif events.key == pygame.K_SPACE:
                         if(selected == False):
+                            if(start == False):
+                                start = True
                             selected = True
                             savedX = xIdx
                             savedY = yIdx
