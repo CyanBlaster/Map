@@ -177,7 +177,38 @@ def main():
                 
             pygame.draw.rect(screen, (255, 255, 255), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
 
-            
+            c = True
+            r = True
+            d = True
+            D = True
+
+            while(c == True or r == True or d == True or D == True):
+                c = False
+                r = False
+                d = False
+                D = False
+                for y in range (cellAmount - 1):
+                    for x in range(cellAmount):
+                        if (ColumnDisappear(map, x, y, mask, minimumLen) == True):
+                            c = ColumnDisappear(map, x, y, mask, minimumLen)
+                print("column", c)
+                for y in range (cellAmount):
+                    for x in range(cellAmount - 1):
+                        if (RowDisappear(map, x, y, mask, minimumLen) == True):
+                            r = RowDisappear(map, x, y, mask, minimumLen)
+                print("row", r)
+                for y in range (cellAmount - 1):
+                    for x in range(cellAmount - 1):
+                        if (Dia1Disappear(map, x, y, mask, minimumLen) == True):
+                            d = Dia1Disappear(map, x, y, mask, minimumLen)
+                print("Diagonal1", d)
+                for y in range (cellAmount - 1, 0, -1):
+                    for x in range(cellAmount - 1, 0, -1):
+                        if (Dia2Disappear(map, x, y, mask, minimumLen) == True):
+                            D = Dia2Disappear(map, x, y, mask, minimumLen)
+                print("Diagonal2", D)
+                for i in range(cellAmount):
+                    score += checkBlanks(map, cellAmount, mask)
 
 
 
@@ -227,27 +258,10 @@ def main():
                                 # print(map[yIdx][xIdx])
                                 selected = False
                                 
-                                c = True
-                                r = True
-                                d = True
-                                D = True
+                                
 
 
 
-                                while(c and r and d and D):
-                                    for y in range (cellAmount - 1):
-                                        for x in range(cellAmount):
-                                            c = ColumnDisappear(map, x, y, mask, minimumLen)
-                                    for y in range (cellAmount):
-                                        for x in range(cellAmount - 1):
-                                            r = RowDisappear(map, x, y, mask, minimumLen)
-                                    for y in range (cellAmount - 1):
-                                        for x in range(cellAmount - 1):
-                                            d = Dia1Disappear(map, x, y, mask, minimumLen)
-                                    for y in range (cellAmount - 1, 0, -1):
-                                        for x in range(cellAmount - 1, 0, -1):
-                                            D = Dia2Disappear(map, x, y, mask, minimumLen)
-                                    for i in range(cellAmount):
-                                        score += checkBlanks(map, cellAmount, mask)
+                                
 
 main()
