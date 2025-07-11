@@ -92,15 +92,29 @@ def Dia2Disappear(map, startX, startY, mask, m):
 
 def checkBlanks(map, cellAmount, mask):
     add = 0
-    for y in range(0, cellAmount):
-        for x in range(0, cellAmount):
+    # print("before = ", map)
+    for y in range(cellAmount - 1, 0, -1):
+        for x in range(cellAmount - 1, 0, -1):
             if((mask[y][x] == 1 or map[y][x] == 0)):
                 if(mask[y][x] == 1):
                     add += 1
                 map[y][x] = map[y - 1][x]
                 map[y - 1][x] = 0
                 mask[y][x] = 0
+    print("after = ", map)
     return add
+
+    # for y in range(cellAmount - 1, 0, -1):
+    #     for x in range(cellAmount, 0, -1):
+    #         if((mask[y][x] == 1 or map[y][x] == 0)):
+    #             if(mask[y][x] == 1):
+    #                 add += 1
+    #             map[y][x] = map[y - 1][x]
+    #             map[y - 1][x] = 0
+    #             mask[y][x] = 0
+    #             mask[y][x] = 1
+    # print("after = ", map)
+    # return add
 
 
 
@@ -168,8 +182,11 @@ def main():
             for y in range (cellAmount):
                 for x in range(cellAmount):
                         #print(x, y, map[y][x])
-                        if(map[y][x] == 0):
-                            map[y][x] = randomInteger()
+
+
+                        # if(map[y][x] == 0):
+                        #     map[y][x] = randomInteger()
+
                         pygame.draw.circle(screen, Color(map[y][x]), (x * wCell + 19, y * hCell + 19), 19)
                     # if(map[y][x] == 0):
                     #     pygame.draw.rect(screen, (0, 0, 0), (x * cellAmount, y * cellAmount, 38, 38))
@@ -192,24 +209,21 @@ def main():
                     for x in range(cellAmount):
                         if (ColumnDisappear(map, x, y, mask, minimumLen) == True):
                             c = ColumnDisappear(map, x, y, mask, minimumLen)
-                print("column", c)
                 for y in range (cellAmount):
                     for x in range(cellAmount - 1):
                         if (RowDisappear(map, x, y, mask, minimumLen) == True):
                             r = RowDisappear(map, x, y, mask, minimumLen)
-                print("row", r)
                 for y in range (cellAmount - 1):
                     for x in range(cellAmount - 1):
                         if (Dia1Disappear(map, x, y, mask, minimumLen) == True):
                             d = Dia1Disappear(map, x, y, mask, minimumLen)
-                print("Diagonal1", d)
                 for y in range (cellAmount - 1, 0, -1):
                     for x in range(cellAmount - 1, 0, -1):
                         if (Dia2Disappear(map, x, y, mask, minimumLen) == True):
                             D = Dia2Disappear(map, x, y, mask, minimumLen)
-                print("Diagonal2", D)
-                for i in range(cellAmount):
-                    score += checkBlanks(map, cellAmount, mask)
+                if (c == True or r == True or d == True or D == True):
+                    for i in range(cellAmount):
+                        score += checkBlanks(map, cellAmount, mask)
             if(start == False):
                 score = 0
 
