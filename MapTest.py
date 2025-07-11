@@ -40,6 +40,7 @@ def ColumnDisappear(map, startX, startY, mask, m):
     if(a >= m):
         for i in range(a):
             mask[startY + i][startX] = 1
+        print(mask)
         return True
     return False
         
@@ -94,14 +95,29 @@ def checkBlanks(map, cellAmount, mask):
     add = 0
     # print("before = ", map)
     for y in range(cellAmount - 1, 0, -1):
-        for x in range(cellAmount - 1, 0, -1):
-            if((mask[y][x] == 1 or map[y][x] == 0)):
+        for x in range(cellAmount):
+            if((mask[y][x] == 1)):
                 if(mask[y][x] == 1):
                     add += 1
-                map[y][x] = map[y - 1][x]
-                map[y - 1][x] = 0
+                
+                map[y][x] = 0
+
+
+                # map[y - 1][x] = 0
                 mask[y][x] = 0
-    print("after = ", map)
+    for y in range(cellAmount - 1, 0, -1):
+        for x in range(cellAmount):
+            if(map[y][x] == 0):
+                i = 0
+                while(y - i > 0 and map[y - i][x] == 0):
+                    i+=1
+                if(y - i >= 0):
+                    map[y][x] = map[y - i][x]
+                    map[y - i][x] = 0
+
+                
+                
+    # print("after = ", map)
     return add
 
     # for y in range(cellAmount - 1, 0, -1):
@@ -209,6 +225,7 @@ def main():
                     for x in range(cellAmount):
                         if (ColumnDisappear(map, x, y, mask, minimumLen) == True):
                             c = ColumnDisappear(map, x, y, mask, minimumLen)
+                            print("column")
                 for y in range (cellAmount):
                     for x in range(cellAmount - 1):
                         if (RowDisappear(map, x, y, mask, minimumLen) == True):
@@ -221,6 +238,7 @@ def main():
                     for x in range(cellAmount - 1, 0, -1):
                         if (Dia2Disappear(map, x, y, mask, minimumLen) == True):
                             D = Dia2Disappear(map, x, y, mask, minimumLen)
+
                 if (c == True or r == True or d == True or D == True):
                     for i in range(cellAmount):
                         score += checkBlanks(map, cellAmount, mask)
