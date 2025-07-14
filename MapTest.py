@@ -200,8 +200,8 @@ def main():
                         #print(x, y, map[y][x])
 
 
-                        # if(map[y][x] == 0):
-                        #     map[y][x] = randomInteger()
+                        if(map[y][x] == 0):
+                            map[y][x] = randomInteger()
 
                         pygame.draw.circle(screen, Color(map[y][x]), (x * wCell + 19, y * hCell + 19), 19)
                     # if(map[y][x] == 0):
@@ -225,7 +225,6 @@ def main():
                     for x in range(cellAmount):
                         if (ColumnDisappear(map, x, y, mask, minimumLen) == True):
                             c = ColumnDisappear(map, x, y, mask, minimumLen)
-                            print("column")
                 for y in range (cellAmount):
                     for x in range(cellAmount - 1):
                         if (RowDisappear(map, x, y, mask, minimumLen) == True):
@@ -238,7 +237,7 @@ def main():
                     for x in range(cellAmount - 1, 0, -1):
                         if (Dia2Disappear(map, x, y, mask, minimumLen) == True):
                             D = Dia2Disappear(map, x, y, mask, minimumLen)
-
+      
                 if (c == True or r == True or d == True or D == True):
                     for i in range(cellAmount):
                         score += checkBlanks(map, cellAmount, mask)
@@ -269,11 +268,6 @@ def main():
                             pygame.draw.rect(screen, (0, 0, 0), (xIdx * wCell - 1, yIdx * hCell - 1, 40, 40), 1, border_radius = 1)
                             yIdx += 1
 
-
-                    elif events.key == pygame.K_1:
-                        print(NumRepeatedInColumn(map, xIdx, yIdx))
-                        
-
                     elif events.key == pygame.K_SPACE:
                         if(selected == False):
                             if(start == False):
@@ -291,6 +285,33 @@ def main():
                                 a = map[savedY][savedX]
                                 map[savedY][savedX] = map[yIdx][xIdx]
                                 map[yIdx][xIdx] = a
+                                
+                                col = False
+                                row = False
+                                dia1 = False
+                                dia2 = False
+
+                                for y in range (cellAmount - 1):
+                                    for x in range(cellAmount):
+                                        if (ColumnDisappear(map, x, y, mask, minimumLen) == True):
+                                            col = ColumnDisappear(map, x, y, mask, minimumLen)
+                                for y in range (cellAmount):
+                                    for x in range(cellAmount - 1):
+                                        if (RowDisappear(map, x, y, mask, minimumLen) == True):
+                                            row = RowDisappear(map, x, y, mask, minimumLen)
+                                for y in range (cellAmount - 1):
+                                    for x in range(cellAmount - 1):
+                                        if (Dia1Disappear(map, x, y, mask, minimumLen) == True):
+                                            dia1 = Dia1Disappear(map, x, y, mask, minimumLen)
+                                for y in range (cellAmount - 1, 0, -1):
+                                    for x in range(cellAmount - 1, 0, -1):
+                                        if (Dia2Disappear(map, x, y, mask, minimumLen) == True):
+                                            dia2 = Dia2Disappear(map, x, y, mask, minimumLen)
+                                
+                                if(col == False and row == False and dia1 == False and dia2 == False):
+                                    a = map[savedY][savedX]
+                                    map[savedY][savedX] = map[yIdx][xIdx]
+                                    map[yIdx][xIdx] = a
                                 # print(map[yIdx][xIdx])
                                 selected = False
                                 
