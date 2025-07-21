@@ -6,6 +6,7 @@ import pygame.freetype
 import random
 import asyncio
 
+
 pygame.init()
 
 GAME_FONT = pygame.freetype.Font("DayDream.ttf", 24)
@@ -132,7 +133,6 @@ def checkBlanks(map, cellAmount, mask):
     #             mask[y][x] = 1
     # print("after = ", map)
     # return add
-
 
 
 
@@ -314,8 +314,11 @@ async def main():
                                     map[savedY][savedX] = map[yIdx][xIdx]
                                     map[yIdx][xIdx] = a
                                 # print(map[yIdx][xIdx])
+            
                                 selected = False
-                                
+            await asyncio.sleep(0)  
+
+               
                                 
 
 
