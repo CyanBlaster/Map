@@ -4,6 +4,7 @@ import datetime
 import math
 import pygame.freetype
 import random
+import asyncio
 
 pygame.init()
 
@@ -135,7 +136,7 @@ def checkBlanks(map, cellAmount, mask):
 
 
 
-def main():
+async def main():
     width = 800
     height = 800
     xIdx = 0
@@ -321,4 +322,4 @@ def main():
 
                                 
 
-main()
+asyncio.run(main())
